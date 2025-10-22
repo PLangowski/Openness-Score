@@ -3,9 +3,28 @@ site_name: Openness Score
 theme:
   name: readthedocs
 
+extra_css:
+  - extra.css
+
+extra_javascript:
+  - extra.js
+
+markdown_extensions:
+  - mdx_truly_sane_lists
+
 plugins:
   - search
-  - mkdocstrings
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_signature: true
+            show_signature_annotations: true
+            separate_signature: true
+            docstring_style: numpy
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
 
 nav:
   - Home: index.md

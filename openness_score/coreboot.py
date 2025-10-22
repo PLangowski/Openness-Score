@@ -59,12 +59,14 @@ class DasharoCorebootImage:
                     'RW_SECTION_A', 'RW_SECTION_B', 'WP_RO', 'RO_SECTION',
                     'SI_BIOS']
     """A list of region names known to be containers or aliases of other
-    regions. These regions are skipped from classification."""
+    regions. These regions are skipped from classification.
+    """
 
     # Regions to count as empty/unused
     EMPTY_REGIONS = ['UNUSED', 'RW_UNUSED', 'SI_DEVICEEXT2']
     """A list of region names known to be empty spaces, e.g. between IFD
-    regions."""
+    regions.
+    """
 
     def __init__(self, image_path, verbose=False):
         """DasharoCorebootImage class init method
@@ -75,11 +77,13 @@ class DasharoCorebootImage:
         `coreboot.DasharoCorebootImage._calculate_metrics` methods to
         parse the image and calculate the metrics.
 
-        :param image_path: Path the the firmware image file being parsed.
-        :type image_path: str
-        :param verbose: Optional parameter to turn on debug information during
-                        the image parsing, defaults to False
-        :type verbose: bool, optional
+        Parameters
+        ----------
+        image_path : str
+            Path the the firmware image file being parsed.
+        verbose : bool, optional
+            Optional parameter to turn on debug information during the
+            image parsing, defaults to False
         """
         self.image_path = image_path
         """Path to the image represented by DasharoCorebootImage class"""
@@ -126,16 +130,20 @@ class DasharoCorebootImage:
     def __len__(self):
         """Returns the length of the coreboot firmware image
 
-        :return: Length of the firmware binary file
-        :rtype: int
+        Returns
+        -------
+        int
+            Length of the firmware binary file
         """
         return self.image_size
 
     def __repr__(self):
         """DasharoCorebootImage class representation
 
-        :return: class representation
-        :rtype: str
+        Returns
+        -------
+        str
+            class representation
         """
         return 'DasharoCorebootImage()'
 
@@ -144,8 +152,10 @@ class DasharoCorebootImage:
 
         Prints the firmware image statistics.
 
-        :return: DasharoCorebootImage string representation
-        :rtype: str
+        Returns
+        -------
+        str
+            DasharoCorebootImage string representation
         """
         return 'Dasharo image %s:\n' \
                '\tImage size: %d\n' \
@@ -167,10 +177,15 @@ class DasharoCorebootImage:
     def _region_is_cbfs(self, region):
         """Checks if given region has a CBFS attribute
 
-        :param region: Flashmap region entry from dictionary
-        :type region: dict
-        :return: True if regions contains CBFS attribute, false otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        region : dict
+            Flashmap region entry from dictionary
+
+        Returns
+        -------
+        bool
+            True if regions contains CBFS attribute, false otherwise.
         """
         if region['attributes'] == 'CBFS':
             return True
@@ -289,8 +304,10 @@ class DasharoCorebootImage:
         counted as closed-source code region because we were unable to
         identify what can be inside.
 
-        :param region: Flashmap region entry from dictionary
-        :type region: dict
+        Parameters
+        ----------
+        region : dict
+            Flashmap region entry from dictionary
         """
         if self._region_is_cbfs(region):
             # Skip CBFSes because they have separate class and methods to
@@ -385,10 +402,15 @@ class DasharoCorebootImage:
     def _sum_sizes(self, regions):
         """Sums the size of the regions
 
-        :param regions: Dictionary of regions to sum
-        :type regions: dict
-        :return: Sum of the region sizes
-        :rtype: int
+        Parameters
+        ----------
+        regions : dict
+            Dictionary of regions to sum
+
+        Returns
+        -------
+        int
+            Sum of the region sizes
         """
         return sum(list(r['size'] for r in regions))
 
@@ -422,26 +444,32 @@ class DasharoCorebootImage:
     def _get_percentage(self, metric):
         """Helper function to generate code share percentage
 
-        :param metric: The size of open-source or closed-source code
-        :type metric: int
-        :return: Percentage share of given metric compared to the sum of
-                 open-source and closed-source code size.
-        :rtype: int
+        Parameters
+        ----------
+        metric : int
+            The size of open-source or closed-source code
+
+        Returns
+        -------
+        int
+            Percentage share of given metric compared to the sum of
+            open-source and closed-source code size.
         """
         return metric * 100 / (self.open_code_size + self.closed_code_size)
 
     def _export_regions_md(self, file, regions, category):
         """Write the regions for given category to the markdown file
 
-        :param file: Markdown file handle to write the regions's info to
-        :type file: file
-        :param regions: Dictionary containing regions to be written to the
-                        markdown file.
-        :type regions: dict
-        :param category: Category of the regions to be written to the markdown
-                         file. Should be one of: open-source, closed-source,
-                         data, empty.
-        :type category: str
+        Parameters
+        ----------
+        file : file
+            Markdown file handle to write the regions's info to
+        regions : dict
+            Dictionary containing regions to be written to the markdown
+            file.
+        category : str
+            Category of the regions to be written to the markdown file.
+            Should be one of: open-source, closed-source, data, empty.
         """
         for region in regions:
             file.write('| {} | {} | {} | {} |\n'.format(
@@ -457,10 +485,12 @@ class DasharoCorebootImage:
         `coreboot.CBFSImage.export_markdown` to save the CBFS region
         statistics.
 
-        :param file: Path to markdown file
-        :type file: str
-        :param mkdocs: Switch to export the report for mkdocs
-        :type mkdocs: bool
+        Parameters
+        ----------
+        file : str
+            Path to markdown file
+        mkdocs : bool
+            Switch to export the report for mkdocs
         """
         with open(file, 'w') as md:
             if not mkdocs:
@@ -521,8 +551,10 @@ class DasharoCorebootImage:
         components categories: closed-source, open-source, data and empty
         space.
 
-        :param dir: Path to the directory where the charts will be saved.
-        :type dir: str
+        Parameters
+        ----------
+        dir : str
+            Path to the directory where the charts will be saved.
         """
         labels = 'closed-source', 'open-source'
         sizes = [self.closed_code_size, self.open_code_size]
@@ -549,9 +581,9 @@ class DasharoCorebootImage:
 
 
 class CBFSImage:
-    """ CBFSImage class
+    """CBFSImage class
 
-    The main class representing a coreboot's CBFS
+        The main class representing a coreboot's CBFS
     """
 
     debug = False
@@ -662,7 +694,8 @@ class CBFSImage:
 
     DASHARO_LAN_ROM_GUID = 'DEB917C0-C56A-4860-A05B-BF2F22EBB717'
     """GUID of the Dasharo UEFI Paylaod file that contains closed-source
-    EFI driver for LAN NIC"""
+    EFI driver for LAN NIC
+    """
 
     file_patterns = [
         r"(?P<filename>[a-zA-Z0-9\(\)\/\.\,\_\-]*?)\s+",
@@ -685,13 +718,14 @@ class CBFSImage:
         `coreboot.DasharoCorebootImage._calculate_metrics` methods to
         parse the CBFS and calculate the metrics.
 
-        :param region: Path the the firmware image file being parsed.
-        :type image_path: str
-        :param region: The flashmap region where the CBFS resides.
-        :type image_path: dict
-        :param verbose: Optional parameter to turn on debug information during
-                        the image parsing, defaults to False
-        :type verbose: bool, optional
+        Parameters
+        ----------
+        region
+            The flashmap region where the CBFS resides.
+        image_path : dict
+        verbose : bool, optional
+            Optional parameter to turn on debug information during the
+            image parsing, defaults to False
         """
         self.image_path = image_path
         """Path to the image represented by DasharoCorebootImage class"""
@@ -755,16 +789,20 @@ class CBFSImage:
     def __len__(self):
         """Returns the length of the CBFS region
 
-        :return: Length of the CBFS
-        :rtype: int
+        Returns
+        -------
+        int
+            Length of the CBFS
         """
         return self.cbfs_size
 
     def __repr__(self):
         """CBFSImage class representation
 
-        :return: class representation
-        :rtype: str
+        Returns
+        -------
+        str
+            class representation
         """
         return 'CBFSImage()'
 
@@ -773,8 +811,10 @@ class CBFSImage:
 
         Prints the firmware image statistics.
 
-        :return: CBFSImage string representation
-        :rtype: str
+        Returns
+        -------
+        str
+            CBFSImage string representation
         """
         return 'CBFS region %s:\n' \
                '\tCBFS size: %d\n' \
@@ -912,8 +952,11 @@ class CBFSImage:
         counted as closed-source code because we were unable to identify what
         can be inside.
 
-        :param file: CBFS file entry from dictionary
-        :type region: dict
+        Parameters
+        ----------
+        file
+            CBFS file entry from dictionary
+        region : dict
         """
         if file['filetype'] in self.OPEN_SOURCE_FILETYPES:
             if file['filename'] not in self.CLOSED_SOURCE_EXCEPTIONS:
@@ -993,20 +1036,30 @@ class CBFSImage:
     def _sum_sizes(self, files):
         """Sums the size of the CBFS files
 
-        :param files: Dictionary of files to sum
-        :type files: dict
-        :return: Sum of the files' sizes
-        :rtype: int
+        Parameters
+        ----------
+        files : dict
+            Dictionary of files to sum
+
+        Returns
+        -------
+        int
+            Sum of the files' sizes
         """
         return sum(list(f['size'] for f in files))
 
     def _get_kconfig_value(self, option):
         """Returns a value of given coreboot's Kconfig option
 
-        :param option: Name of the Kconfig option without 'CONFIG_' prefix.
-        :type option: str
-        :return: The value of Kconfig option
-        :rtype: str
+        Parameters
+        ----------
+        option : str
+            Name of the Kconfig option without 'CONFIG_' prefix.
+
+        Returns
+        -------
+        str
+            The value of Kconfig option
         """
         for i in range(len(self.kconfig_opts)):
             if self.kconfig_opts[i]['option'] == option:
@@ -1149,15 +1202,18 @@ class CBFSImage:
     def _export_files_md(self, file, cbfs_files, category):
         """Writes the CBFS files for given category to the markdown file
 
-        :param file: Markdown file handle to write the CBFS files' info to
-        :type file: file
-        :param cbfs_files: Dictionary containing CBFS files to be written to
-                           the markdown file.
-        :type regions: dict
-        :param category: Category of the CBFS files to be written to the
-                         markdown file. Should be one of: open-source,
-                         closed-source, data, empty.
-        :type category: str
+        Parameters
+        ----------
+        file : file
+            Markdown file handle to write the CBFS files' info to
+        cbfs_files
+            Dictionary containing CBFS files to be written to the
+            markdown file.
+        regions : dict
+        category : str
+            Category of the CBFS files to be written to the markdown
+            file. Should be one of: open-source, closed-source, data,
+            empty.
         """
         for f in cbfs_files:
             file.write('| {} | {} | {} | {} | {} |\n'.format(
@@ -1170,10 +1226,12 @@ class CBFSImage:
         Saves the parsed information and classified CBFS components into a
         markdown file.
 
-        :param file: Markdown file handle
-        :type file: str
-        :param mkdocs: Switch to export the report for mkdocs
-        :type mkdocs: bool
+        Parameters
+        ----------
+        file : str
+            Markdown file handle
+        mkdocs : bool
+            Switch to export the report for mkdocs
         """
         if not mkdocs:
             file.write('## CBFS %s\n\n' % self.region_name)

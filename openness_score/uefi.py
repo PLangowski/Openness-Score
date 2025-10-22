@@ -80,11 +80,13 @@ class UEFIImage:
         `coreboot.UEFIImage._calculate_metrics` methods to parse the
         image and calculate the metrics.
 
-        :param image_path: Path the the firmware image file being parsed.
-        :type image_path: str
-        :param verbose: Optional parameter to turn on debug information during
-                        the image parsing, defaults to False
-        :type verbose: bool, optional
+        Parameters
+        ----------
+        image_path : str
+            Path the the firmware image file being parsed.
+        verbose : bool, optional
+            Optional parameter to turn on debug information during the
+            image parsing, defaults to False
         """
         self.image_path = image_path
         """Path to the image represented by UEFIImage class"""
@@ -128,16 +130,20 @@ class UEFIImage:
     def __len__(self):
         """Returns the length of the UEFI firmware image
 
-        :return: Length of the firmware binary file
-        :rtype: int
+        Returns
+        -------
+        int
+            Length of the firmware binary file
         """
         return self.image_size
 
     def __repr__(self):
         """UEFIImage class representation
 
-        :return: class representation
-        :rtype: str
+        Returns
+        -------
+        str
+            class representation
         """
         return "UEFIImage()"
 
@@ -146,8 +152,10 @@ class UEFIImage:
 
         Prints the firmware image statistics.
 
-        :return: UEFIImage string representation
-        :rtype: str
+        Returns
+        -------
+        str
+            UEFIImage string representation
         """
         return 'Vendor UEFI image %s:\n' \
                '\tImage size: %d\n' \
@@ -235,10 +243,15 @@ class UEFIImage:
     def _entry_is_volume(self, entry):
         """Helper function to check if UEFI entry is an UEFI Firmware Volume
 
-        :param entry: UEFI image entry from the entries dictionary
-        :type entry: dict
-        :return: True if entry is a Firmware Volume, False otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            UEFI image entry from the entries dictionary
+
+        Returns
+        -------
+        bool
+            True if entry is a Firmware Volume, False otherwise.
         """
         # Take only the top level volumes. Volumes that are nested/compressed
         # will have size of -1 (N/A).
@@ -251,11 +264,16 @@ class UEFIImage:
         """Helper function to check if UEFI entry is an UEFI Firmware Volume
         nested in another already detected UEFI Firmware Volume
 
-        :param entry: UEFI image entry from the entries dictionary
-        :type entry: dict
-        :return: True if entry is a Firmware Volume is nested, False
-                 otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            UEFI image entry from the entries dictionary
+
+        Returns
+        -------
+        bool
+            True if entry is a Firmware Volume is nested, False
+            otherwise.
         """
         # Ignore nested uncompressed volumes, they will be handled inside
         # UEFIVolume class. FSP-S is an example where multiple uncompressed
@@ -273,10 +291,15 @@ class UEFIImage:
     def _entry_is_region(self, entry):
         """Helper function to check if UEFI entry is a region
 
-        :param entry: UEFI image entry from the entries dictionary
-        :type entry: dict
-        :return: True if entry is a region, False otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            UEFI image entry from the entries dictionary
+
+        Returns
+        -------
+        bool
+            True if entry is a region, False otherwise.
         """
         if entry['type'] == 'Region':
             return True
@@ -287,10 +310,15 @@ class UEFIImage:
         """Helper function to check if UEFI entry resides inside the BIOS
         region
 
-        :param entry: UEFI image entry from the entries dictionary
-        :type entry: dict
-        :return: True if entry is inside the BIOS region, False otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            UEFI image entry from the entries dictionary
+
+        Returns
+        -------
+        bool
+            True if entry is inside the BIOS region, False otherwise.
         """
         # We ignore nested/compressed entries. We only care about padding that
         # have a base and size which are inside BIOS region. We handle regions
@@ -404,10 +432,15 @@ class UEFIImage:
     def _sum_sizes(self, regions):
         """Sums the size of the regions
 
-        :param regions: Dictionary of regions to sum
-        :type regions: dict
-        :return: Sum of the region sizes
-        :rtype: int
+        Parameters
+        ----------
+        regions : dict
+            Dictionary of regions to sum
+
+        Returns
+        -------
+        int
+            Sum of the region sizes
         """
         return sum(list(r['size'] for r in regions))
 
@@ -485,26 +518,32 @@ class UEFIImage:
     def _get_percentage(self, metric):
         """Helper function to generate code share percentage
 
-        :param metric: The size of open-source or closed-source code
-        :type metric: int
-        :return: Percentage share of given metric compared to the sum of
-                 open-source and closed-source code size.
-        :rtype: int
+        Parameters
+        ----------
+        metric : int
+            The size of open-source or closed-source code
+
+        Returns
+        -------
+        int
+            Percentage share of given metric compared to the sum of
+            open-source and closed-source code size.
         """
         return metric * 100 / (self.open_code_size + self.closed_code_size)
 
     def _export_regions_md(self, file, regions, category):
         """Write the regions for given category to the markdown file
 
-        :param file: Markdown file handle to write the regions's info to
-        :type file: file
-        :param regions: Dictionary containing regions to be written to the
-                        markdown file.
-        :type regions: dict
-        :param category: Category of the regions to be written to the markdown
-                         file. Should be one of: open-source, closed-source,
-                         data, empty.
-        :type category: str
+        Parameters
+        ----------
+        file : file
+            Markdown file handle to write the regions's info to
+        regions : dict
+            Dictionary containing regions to be written to the markdown
+            file.
+        category : str
+            Category of the regions to be written to the markdown file.
+            Should be one of: open-source, closed-source, data, empty.
         """
         for region in regions:
             file.write('| {} | {} | {} | {} |\n'.format(
@@ -520,10 +559,12 @@ class UEFIImage:
         `uefi.UEFIVolume.export_markdown` to save the UEFI Firmware
         Volume statistics.
 
-        :param file: Path to markdown file
-        :type file: str
-        :param mkdocs: Switch to export the report for mkdocs
-        :type mkdocs: bool
+        Parameters
+        ----------
+        file : str
+            Path to markdown file
+        mkdocs : bool
+            Switch to export the report for mkdocs
         """
         with open(file, 'w') as md:
             if not mkdocs:
@@ -590,8 +631,10 @@ class UEFIImage:
         components categories: closed-source, open-source, data and empty
         space.
 
-        :param dir: Path to the directory where the charts will be saved.
-        :type dir: str
+        Parameters
+        ----------
+        dir : str
+            Path to the directory where the charts will be saved.
         """
         labels = 'closed-source', 'open-source'
         sizes = [self.closed_code_size, self.open_code_size]
@@ -643,14 +686,16 @@ class UEFIVolume:
         `coreboot.UEFIVolume._calculate_metrics` methods to parse the
         image and calculate the metrics.
 
-        :param uefi_entries: Dictionary with the UEFI entries from the report.
-        :type uefi_entries: dict
-        :param entry_idx: Index in the UEFI entries dictionary pointing to the
-                          beginning of the Firmware Volume
-        :type entry_idx: int
-        :param verbose: Optional parameter to turn on debug information during
-                        the image parsing, defaults to False
-        :type verbose: bool, optional
+        Parameters
+        ----------
+        uefi_entries : dict
+            Dictionary with the UEFI entries from the report.
+        entry_idx : int
+            Index in the UEFI entries dictionary pointing to the
+            beginning of the Firmware Volume
+        verbose : bool, optional
+            Optional parameter to turn on debug information during the
+            image parsing, defaults to False
         """
         self.uefi_entries = uefi_entries
         """A copy of UEFI entries used to parse the Firmware Volume contents"""
@@ -700,16 +745,20 @@ class UEFIVolume:
     def __len__(self):
         """Returns the length of the UEFI Firmware Volume
 
-        :return: Length of the UEFI Firmware Volume
-        :rtype: int
+        Returns
+        -------
+        int
+            Length of the UEFI Firmware Volume
         """
         return self.volume_size
 
     def __repr__(self):
         """UEFIVolume class representation
 
-        :return: class representation
-        :rtype: str
+        Returns
+        -------
+        str
+            class representation
         """
         return "UEFIVolume()"
 
@@ -718,8 +767,10 @@ class UEFIVolume:
 
         Prints the firmware image statistics.
 
-        :return: UEFIVolume string representation
-        :rtype: str
+        Returns
+        -------
+        str
+            UEFIVolume string representation
         """
         return 'UEFI Volume:\n' \
                '\tBase: %s\n' \
@@ -741,11 +792,16 @@ class UEFIVolume:
         """Helper function to check if UEFI entry resides inside this UEFI
         Firmware Volume
 
-        :param entry: UEFI image entry from the entries dictionary
-        :type entry: dict
-        :return: True if entry is inside this Firmware Volume, False
-                 otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            UEFI image entry from the entries dictionary
+
+        Returns
+        -------
+        bool
+            True if entry is inside this Firmware Volume, False
+            otherwise.
         """
         # Each volume starts with an entry that has a base and size.
         # Automatically accept all files in the middle that has base of -1
@@ -781,11 +837,16 @@ class UEFIVolume:
         """Helper function to check if UEFI entry is the last entry in this
         UEFI Firmware Volume
 
-        :param entry: UEFI image entry from the entries dictionary
-        :type entry: dict
-        :return: True if entry is the last one in this Firmware Volume, False
-                 otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            UEFI image entry from the entries dictionary
+
+        Returns
+        -------
+        bool
+            True if entry is the last one in this Firmware Volume, False
+            otherwise.
         """
         # Volume ends with a known size entry, never with a compressed one.
         if entry['base'] == -1:
@@ -800,10 +861,15 @@ class UEFIVolume:
     def _entry_is_region(self, entry):
         """Helper function to check if UEFI entry is a region
 
-        :param entry: UEFI image entry from the entries dictionary
-        :type entry: dict
-        :return: True if entry is a region, False otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            UEFI image entry from the entries dictionary
+
+        Returns
+        -------
+        bool
+            True if entry is a region, False otherwise.
         """
         if entry['type'] == 'Region':
             return True
@@ -814,11 +880,16 @@ class UEFIVolume:
         """Helper function to check if UEFI entry is the current UEFI Firmware
         Volume
 
-        :param entry: UEFI image entry from the entries dictionary
-        :type entry: dict
-        :return: True if entry is the current UEFI Firmware Volume, False
-                 otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            UEFI image entry from the entries dictionary
+
+        Returns
+        -------
+        bool
+            True if entry is the current UEFI Firmware Volume, False
+            otherwise.
         """
         if entry['type'] == 'Volume' and \
            entry['base'] == self.volume_base and \
@@ -834,11 +905,16 @@ class UEFIVolume:
         Only FFSv2 volumes are counted, FFSv3 are compressed and do not have
         size, thus cannot be used to measure metrics.
 
-        :param entry: UEFI image entry from the entries dictionary
-        :type entry: dict
-        :return: True if entry is a nested UEFI Firmware Volume, False
-                 otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            UEFI image entry from the entries dictionary
+
+        Returns
+        -------
+        bool
+            True if entry is a nested UEFI Firmware Volume, False
+            otherwise.
         """
         # Volumes that are nested/uncompressed will have a valid size.
         if entry['type'] == 'Volume' and entry['size'] != -1 and \
@@ -924,10 +1000,15 @@ class UEFIVolume:
     def _is_entry_empty_padding(self, entry):
         """Checks if an entry is an empty padding
 
-        :param entry: A dictionary entry from the UEFI Firmware Volume entries
-        :type entry: dict
-        :return: True if an entry is an empty padding, False otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            A dictionary entry from the UEFI Firmware Volume entries
+
+        Returns
+        -------
+        bool
+            True if an entry is an empty padding, False otherwise.
         """
         # The entry must have a base and size, otherwise it is compressed and
         # we don't care about it.
@@ -942,10 +1023,15 @@ class UEFIVolume:
     def _is_entry_non_empty_padding(self, entry):
         """Checks if an entry is a non-empty padding
 
-        :param entry: A dictionary entry from the UEFI Firmware Volume entries
-        :type entry: dict
-        :return: True if an entry is a non-empty pad file, False otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            A dictionary entry from the UEFI Firmware Volume entries
+
+        Returns
+        -------
+        bool
+            True if an entry is a non-empty pad file, False otherwise.
         """
         # The entry must have a base and size, otherwise it is compressed and
         # we don't care about it.
@@ -959,10 +1045,15 @@ class UEFIVolume:
     def _is_entry_free_space(self, entry):
         """Checks if an entry is a free space
 
-        :param entry: A dictionary entry from the UEFI Firmware Volume entries
-        :type entry: dict
-        :return: True if an entry is a free space, False otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            A dictionary entry from the UEFI Firmware Volume entries
+
+        Returns
+        -------
+        bool
+            True if an entry is a free space, False otherwise.
         """
         # The entry must have a base and size, otherwise it is compressed and
         # we don't care about it.
@@ -975,10 +1066,15 @@ class UEFIVolume:
     def _is_entry_empty_pad_file(self, entry):
         """Checks if an entry is an empty pad file
 
-        :param entry: A dictionary entry from the UEFI Firmware Volume entries
-        :type entry: dict
-        :return: True if an entry is an empty pad file, False otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            A dictionary entry from the UEFI Firmware Volume entries
+
+        Returns
+        -------
+        bool
+            True if an entry is an empty pad file, False otherwise.
         """
         # The entry must have a base and size, otherwise it is compressed and
         # we don't care about it.
@@ -993,10 +1089,15 @@ class UEFIVolume:
     def _is_entry_non_empty_pad_file(self, entry):
         """Checks if an entry is a non-empty pad file
 
-        :param entry: A dictionary entry from the UEFI Firmware Volume entries
-        :type entry: dict
-        :return: True if an entry is a non-empty pad file, False otherwise.
-        :rtype: bool
+        Parameters
+        ----------
+        entry : dict
+            A dictionary entry from the UEFI Firmware Volume entries
+
+        Returns
+        -------
+        bool
+            True if an entry is a non-empty pad file, False otherwise.
         """
         # The entry must have a base and size, otherwise it is compressed and
         # we don't care about it.
@@ -1011,20 +1112,27 @@ class UEFIVolume:
     def _sum_sizes(self, files):
         """Sums the size of the UEFI Firmware Volume files
 
-        :param files: Dictionary of files to sum
-        :type files: dict
-        :return: Sum of the files' sizes
-        :rtype: int
+        Parameters
+        ----------
+        files : dict
+            Dictionary of files to sum
+
+        Returns
+        -------
+        int
+            Sum of the files' sizes
         """
         return sum(list(f['size'] for f in files))
 
     def _is_nvar_store_volume(self):
         """Determines if given UEFI Firmware Volume is a variable store
 
-        :return: True if the Firmware Volume consists of NVAR entries
-                 exceeding the `uefi.UEFIVolume.NVAR_VOLUME_THRESHOLD`,
-                 False otherwise.
-        :rtype: bool
+        Returns
+        -------
+        bool
+            True if the Firmware Volume consists of NVAR entries
+            exceeding the `uefi.UEFIVolume.NVAR_VOLUME_THRESHOLD`, False
+            otherwise.
         """
         nvar_count = 0
 
@@ -1107,15 +1215,16 @@ class UEFIVolume:
         """Write the Firmware Volume entries for given category to the
         markdown file
 
-        :param file: Markdown file handle to write the entries' info to
-        :type file: file
-        :param volume_files: Dictionary containing entires to be written to
-                             the markdown file.
-        :type volume_files: dict
-        :param category: Category of the entries to be written to the markdown
-                         file. Should be one of: open-source, closed-source,
-                         data, empty.
-        :type category: str
+        Parameters
+        ----------
+        file : file
+            Markdown file handle to write the entries' info to
+        volume_files : dict
+            Dictionary containing entires to be written to the markdown
+            file.
+        category : str
+            Category of the entries to be written to the markdown file.
+            Should be one of: open-source, closed-source, data, empty.
         """
         for f in volume_files:
             file.write('| {} | {} | {} | {} | {} | {} |\n'.format(
@@ -1130,10 +1239,12 @@ class UEFIVolume:
         Saves the parsed information and classified UEFI Firmware Volume
         components into a markdown file.
 
-        :param file: Markdown file handle
-        :type file: str
-        :param mkdocs: Switch to export the report for mkdocs
-        :type mkdocs: bool
+        Parameters
+        ----------
+        file : str
+            Markdown file handle
+        mkdocs : bool
+            Switch to export the report for mkdocs
         """
         if not mkdocs:
             file.write('## UEFI Volume %s\n\n' % self.volume_guid)

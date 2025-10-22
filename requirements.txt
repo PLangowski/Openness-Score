@@ -1,4 +1,4 @@
-bluepy
 matplotlib
 pycodestyle
 mkdocstrings[python]
+mdx_truly_sane_lists

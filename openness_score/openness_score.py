@@ -20,8 +20,10 @@ version = 'v0.1.0'
 class ObligingArgumentParser(ArgumentParser):
     """An extension to ArgumentParser class providing better error handling
 
-    :param ArgumentParser: The class to be inherited from.
-    :type ArgumentParser: ArgumentParser
+    Parameters
+    ----------
+    ArgumentParser : ArgumentParser
+        The class to be inherited from.
     """
     def error(self, message):
         """error Prints an error message if there was an error parsing the
@@ -29,8 +31,10 @@ class ObligingArgumentParser(ArgumentParser):
 
         The function also prints a help section and returns an exit code 2.
 
-        :param message: Message to be printed on error.
-        :type message: str
+        Parameters
+        ----------
+        message : str
+            Message to be printed on error.
         """
         sys.stderr.write('Error: %s\n' % message)
         self.print_help()
@@ -45,10 +49,15 @@ def check_file(file):
     UEFIExtract and lzma are present. It also recognizes whether the input
     file is a coreboot image or UEFI image.
 
-    :param file: The input firmware image path
-    :type file: str
-    :return: Two booleans indicating the CBFS and UEFI format compliance
-    :rtype: bool, bool
+    Parameters
+    ----------
+    file : str
+        The input firmware image path
+
+    Returns
+    -------
+    bool, bool
+        Two booleans indicating the CBFS and UEFI format compliance
     """
     fw_img = Path(file)
 
@@ -98,10 +107,12 @@ def export_data(args, image):
     """Calls the image's class methods to export data to the markdown and pie
     charts
 
-    :param args: Program arguments
-    :type args: argparse.Namespace
-    :param image: An instance of DasharoCorebootImage or UEFIImage
-    :type image: DasharoCorebootImage or UEFIImage
+    Parameters
+    ----------
+    args : argparse.Namespace
+        Program arguments
+    image : DasharoCorebootImage or UEFIImage
+        An instance of DasharoCorebootImage or UEFIImage
     """
     output_path = Path.cwd()
 

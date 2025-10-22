@@ -2,5 +2,5 @@
     handler: python
     options:
         filters: []
-        docstring_style: sphinx
+        docstring_style: numpy
 

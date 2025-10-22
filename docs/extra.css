@@ -1,0 +1,133 @@
+/* Style for class containers */
+div.doc-class {
+  background-color: #f8fbff;
+  border-left: 4px solid #4a90e2; /* blue left border */
+  margin-bottom: 1em;
+  padding-left: 10px;
+}
+
+/* Class name styling */
+div.doc-class > .doc-object-name {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #2c3e50; /* dark blue */
+}
+
+/* Method/function container */
+div.doc-method, div.doc-function {
+  background-color: #fafaff;
+  border-bottom: 1px dashed #d0d7de;
+  border-left: 2px solid #888888; /* gray left border */
+  margin-bottom: 0.8em;
+  margin-left: 20px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+}
+
+/* Method/function name */
+div.doc-method > .doc-object-name,
+div.doc-function > .doc-object-name {
+  font-weight: bold;
+  color: #e67e22; /* orange */
+  font-style: normal;
+}
+
+/* Function/method signature arguments */
+div.doc-method span.signature {
+  font-style: italic;
+  color: #7f8c8d; /* grayish */
+}
+
+/* Parameter names inside signature */
+div.doc-method span.signature > .param {
+  font-weight: normal;
+  font-style: italic;
+  color: #16a085; /* teal */
+}
+
+/* Return type or annotation styling */
+div.doc-method span.annotation {
+  color: #2980b9; /* blue */
+  font-weight: normal;
+}
+
+/* Attribute blocks */
+div.doc-attribute {
+  margin-left: 20px;
+  color: #34495e; /* dark gray-blue */
+  font-style: normal;
+}
+
+/* Highlight decorators if present */
+div.doc-decorator {
+  color: #8e44ad; /* purple */
+  font-weight: bold;
+}
+
+/* Headings */
+h5.doc-heading {
+  font-weight: 700;
+  color: #34495e;
+  margin-top: 1em;
+}
+
+/* Don't render the Python lists' elements */
+div.doc-signature {
+  display: none;
+}
+
+/* Don't render doc-label */
+small.doc-label {
+  display: none;
+}
+
+/* Don't render doc-symbol-heading */
+code.doc-symbol-heading {
+  display: none;
+}
+
+/* Table header styling */
+th {
+  background-color: #f2f4f8;         /* Soft cool background */
+  color: #2c3e50;                    /* Dark navy text for readability */
+  font-weight: 600;                  /* Slightly bolder */
+  text-align: left;                  /* Align headers to the left */
+  padding: 0.6em 1em;                /* Comfortable padding */
+  border-bottom: 2px solid #a9bcd0; /* Distinct bottom border */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Table row styling */
+tr {
+  vertical-align: middle;
+  border-bottom: 1px solid #e1e4ea;  /* Subtle row separator */
+}
+
+/* Alternate row shading */
+tr:nth-child(even) {
+  background-color: #fcfdfe;         /* Very light grey for even rows */
+}
+
+/* On hover highlight for rows */
+tr:hover {
+  background-color: #e9f0fb;         /* Light blue highlight */
+  transition: background-color 0.3s ease;
+}
+
+/* Cell padding for data cells */
+td {
+  padding: 0.5em 1em;
+  font-family: 'Consolas', 'Courier New', monospace;  /* Monospaced for code readability */
+  color: #3a3a3a;
+}
+
+/* For extra.js */
+a.reference-link {
+  font-family: monospace;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 0.1em 0.3em;
+  text-decoration: none;
+  color: inherit;
+}
